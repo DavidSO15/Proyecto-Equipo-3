@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "143732025645",
+    "project_id": "proyecto-equipo-3",
+    "storage_bucket": "proyecto-equipo-3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:143732025645:android:dc6837bcdfdb4530c58ba4",
+        "android_client_info": {
+          "package_name": "com.example.proyectoequipo3"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDaXp1uHsBF7WlFRkarIKUX0aZebbdNAjE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
