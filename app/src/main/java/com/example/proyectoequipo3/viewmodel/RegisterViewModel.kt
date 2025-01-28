@@ -27,3 +27,4 @@ class RegisterViewModel : ViewModel() {
         }
     }
 }
+

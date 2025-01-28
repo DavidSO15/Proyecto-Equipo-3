@@ -8,6 +8,8 @@ android {
     namespace = "com.example.proyectoequipo3"
     compileSdk = 35
 
+
+
     defaultConfig {
         applicationId = "com.example.proyectoequipo3"
         minSdk = 24
@@ -18,7 +20,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    buildFeatures {
+        viewBinding = true
+    }
     buildTypes {
+
         release {
             isMinifyEnabled = false
             proguardFiles(

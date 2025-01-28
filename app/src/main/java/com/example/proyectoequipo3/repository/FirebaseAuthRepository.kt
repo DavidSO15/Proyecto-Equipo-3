@@ -1,8 +1,6 @@
 package com.example.tuapp.data.repository
 
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.android.gms.tasks.Task
 
 class FirebaseAuthRepository {
 
@@ -12,14 +10,11 @@ class FirebaseAuthRepository {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    callback(true, null)  // Registro exitoso
+                    callback(true, null)
                 } else {
-                    callback(false, task.exception?.message)  // Error en el registro
+                    callback(false, task.exception?.message)
                 }
             }
     }
-
-    fun getCurrentUser(): FirebaseUser? {
-        return firebaseAuth.currentUser
-    }
 }
+
