@@ -49,6 +49,8 @@ dependencies {
     implementation(libs.firebase.bom)
     implementation(libs.firebase.auth.ktx)
     implementation("com.airbnb.android:lottie:5.0.3")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
