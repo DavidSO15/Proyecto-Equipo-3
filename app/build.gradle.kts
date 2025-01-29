@@ -8,8 +8,6 @@ android {
     namespace = "com.example.proyectoequipo3"
     compileSdk = 35
 
-
-
     defaultConfig {
         applicationId = "com.example.proyectoequipo3"
         minSdk = 24
@@ -24,7 +22,6 @@ android {
         viewBinding = true
     }
     buildTypes {
-
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -51,6 +48,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.bom)
     implementation(libs.firebase.auth.ktx)
+    implementation("com.airbnb.android:lottie:5.0.3")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
