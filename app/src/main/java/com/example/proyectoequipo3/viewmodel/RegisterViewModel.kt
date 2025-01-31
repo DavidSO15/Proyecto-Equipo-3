@@ -1,4 +1,4 @@
-package com.example.tuapp.viewmodel
+package com.example.proyectoequipo3.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -27,4 +27,3 @@ class RegisterViewModel : ViewModel() {
         }
     }
 }
-

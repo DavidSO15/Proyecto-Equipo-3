@@ -1,35 +1,28 @@
 package com.example.proyectoequipo3
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.fragment.findNavController
-import com.example.proyectoequipo3.databinding.FragmentRegisterBinding
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.example.proyectoequipo3.databinding.FragmentSecondBinding
-import com.example.tuapp.viewmodel.RegisterViewModel
+import com.example.proyectoequipo3.viewmodel.RegisterViewModel
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
 class SecondFragment : Fragment() {
 
-    private var _binding: FragmentRegisterBinding? = null
+    private var _binding: FragmentSecondBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var registerViewModel: RegisterViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    // Usamos el delegado viewModels para inicializar el ViewModel
+    private val registerViewModel: RegisterViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        _binding = FragmentSecondBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,11 +31,7 @@ class SecondFragment : Fragment() {
 
         // Observadores del ViewModel
         registerViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
-            }
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
         registerViewModel.registerResult.observe(viewLifecycleOwner) { message ->
@@ -66,7 +55,6 @@ class SecondFragment : Fragment() {
             registerViewModel.registerUser(email, password)
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
