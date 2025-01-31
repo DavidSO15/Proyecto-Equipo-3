@@ -5,15 +5,26 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tuapp.data.repository.FirebaseAuthRepository
 
-class loginViewModel: ViewModel() {
-
+class loginViewModel : ViewModel() {
 
     private val authRepository = FirebaseAuthRepository()
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
 
-    private val _registerResult = MutableLiveData<String?>()
-    val registerResult: LiveData<String?> get() = _registerResult
+    private val _loginResult = MutableLiveData<String?>()
+    val loginResult: LiveData<String?> get() = _loginResult
 
+
+    fun loginUser(email: String, password: String) {
+        _isLoading.value = true
+        authRepository.login(email, password) { success, message ->
+            _isLoading.value = false
+            if (success) {
+                _loginResult.value = "Inicio de sesión exitoso"
+            } else {
+                _loginResult.value = message ?: "Error desconocido"
+            }
+        }
+    }
 }

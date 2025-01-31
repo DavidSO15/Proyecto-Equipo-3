@@ -1,18 +1,19 @@
-package com.example.proyectoequipo3
-
-import android.app.FragmentContainer
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.proyectoequipo3.FragmentCommunicator
+import com.example.proyectoequipo3.MainActivity
+import com.example.proyectoequipo3.R
 import com.example.proyectoequipo3.databinding.FragmentFirstBinding
+import com.example.proyectoequipo3.databinding.FragmentLoginBinding
+import com.example.proyectoequipo3.databinding.FragmentRegisterBinding
 import com.example.proyectoequipo3.viewmodel.loginViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 /**
@@ -21,9 +22,9 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class LoginFragment : Fragment() {
-    // TODO: Rename and change types of parameters
 
-    private var _binding: FragmentFirstBinding? = null
+
+    private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private lateinit var communicator: FragmentCommunicator
     private val viewModel by viewModels<loginViewModel>()
@@ -32,8 +33,33 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        setupview()
+        communicator=requireActivity() as FragmentCommunicator
+        setupobservers()
+        return binding.root
+    }
+
+    private fun setupobservers() {
+        viewModel.isLoading.observe(viewLifecycleOwner){
+            communicator.manageLoader(it)
+
+        }
+        viewModel.loginResult.observe(viewLifecycleOwner){
+            val intent = Intent(activity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            activity?.finish()
+        }
+    }
+
+    private fun setupview() {
+        binding.loginButton.setOnClickListener{
+            viewModel.loginUser(binding.loginEmail.text.toString(), binding.loginPassword.text.toString())
+        }
+        binding.registerLink.setOnClickListener{
+            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+        }
     }
 
 }

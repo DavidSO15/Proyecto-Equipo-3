@@ -6,67 +6,47 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.proyectoequipo3.databinding.FragmentRegisterBinding
-import com.example.tuapp.viewmodel.RegisterViewModel
+import androidx.fragment.app.viewModels // Importante para usar el delegado viewModels()
+import androidx.navigation.fragment.findNavController
+import com.example.proyectoequipo3.viewmodel.RegisterViewModel // Importa el ViewModel de la ubicación correcta
+import com.example.proyectoequipo3.viewmodel.loginViewModel
+
 
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
+    private val viewModel by viewModels<RegisterViewModel>()
+    lateinit var  communicator: FragmentCommunicator
 
-    private lateinit var registerViewModel: RegisterViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        setupview()
+        communicator=requireActivity() as FragmentCommunicator
+        setupobservers()
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun setupobservers() {
+        viewModel.isLoading.observe(viewLifecycleOwner){
+            communicator.manageLoader(it)
 
-        // Observadores del ViewModel
-        registerViewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
-            if (isLoading) {
-                binding.progressBar.visibility = View.VISIBLE
-            } else {
-                binding.progressBar.visibility = View.GONE
-            }
         }
-
-        registerViewModel.registerResult.observe(viewLifecycleOwner) { message ->
-            message?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
-            }
+        viewModel.registerResult.observe(viewLifecycleOwner){
+            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
+    }
 
-        // Configuración del botón de registro
-        binding.registerButton.setOnClickListener {
-            val email = binding.registerEmail.text.toString()
-            val password = binding.registerPassword.text.toString()
-
-            // Validación de campos vacíos
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(requireContext(), "Por favor completa todos los campos.", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // Llamar al ViewModel para manejar el registro
-            registerViewModel.registerUser(email, password)
+    private fun setupview() {
+        binding.registerButton.setOnClickListener{
+            viewModel.registerUser(binding.registerEmail.text.toString(), binding.registerPassword.text.toString())
         }
     }
 
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
